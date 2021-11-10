@@ -45,16 +45,12 @@ const ErrorMessage = styled.span`
   color: red;
 `;
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
   let navigate = useNavigate();
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState(null);
-
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event: any) => {
     try {
@@ -63,18 +59,17 @@ export const RegisterForm = () => {
       setIsLoading(false);
 
       const body = {
-        firstname,
-        lastname,
-        password,
-        username,
         email,
+        password,
       };
-      console.log("BODY", body);
-      console.log("SUBMIT");
-      const result = await axios.post(`https://api.pote.dev/users`, body);
-      if (result.status === 201) {
-        console.log("INSCRIT");
-        navigate("/login");
+      console.log("Body", body);
+      const result = await axios.post(`https://api.pote.dev/auth/login`, body);
+      if (result.status === 200) {
+        console.log("Connecter !!", result.data);
+        localStorage.setItem("accessToken", result.data.accessToken);
+
+        navigate("/home");
+        // return dispatch({ type: "SIGNIN", payload: result });
       }
     } catch (err) {
       console.log("err", err);
@@ -92,28 +87,16 @@ export const RegisterForm = () => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <InputContainer>
           <CustomInput
-            placeholder="First Name"
-            onChange={(event) => setFirstname(event?.target.value)}
-          />
-          <CustomInput
-            placeholder="Last Name"
-            onChange={(event) => setLastname(event?.target.value)}
+            placeholder="Email"
+            onChange={(event) => setEmail(event?.target.value)}
           />
           <CustomInput
             placeholder="Password"
             onChange={(event) => setPassword(event?.target.value)}
           />
-          <CustomInput
-            placeholder="Username"
-            onChange={(event) => setUsername(event?.target.value)}
-          />
-          <CustomInput
-            placeholder="Email"
-            onChange={(event) => setEmail(event?.target.value)}
-          />
         </InputContainer>
         <ButtonContainer>
-          <CustomButton label="Register" onClick={handleSubmit} />
+          <CustomButton label="Login" onClick={handleSubmit} />
         </ButtonContainer>
       </FormContainer>
     </>
