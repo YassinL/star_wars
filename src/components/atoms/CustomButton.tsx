@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 interface ICustomButton {
   label?: string;
-  onClick: (event: any) => Promise<void>;
+  onClick: (event: any) => Promise<void> | void;
 }
 
 const Button = styled.button`

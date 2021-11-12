@@ -67,11 +67,11 @@ export const LoginForm = () => {
       if (result.status === 200) {
         console.log("Connecter !!", result.data);
         localStorage.setItem("accessToken", result.data.accessToken);
-
+        localStorage.setItem("xsrfToken", result.data.xsrfToken);
         navigate("/home");
         // return dispatch({ type: "SIGNIN", payload: result });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log("err", err);
       setError(err.response.data.message);
     }

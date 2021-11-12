@@ -18,11 +18,14 @@ export const UserStore = types
     },
     async fetchUsers() {
       const token = localStorage.getItem("accessToken");
+      const xsrfToken = localStorage.getItem("xsrfToken");
       console.log("token", token);
-      const data = await axios.get("https://api.pote.dev/users/public", {
+      console.log("xsrfToken", xsrfToken);
+      const data = await axios.get("https://api.pote.dev/users/", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "x-xsrf-token": `${xsrfToken}`,
         },
       });
       console.log("data", data);

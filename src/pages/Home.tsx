@@ -1,24 +1,17 @@
 import { observer } from "mobx-react";
 import { useEffect } from "react";
 import styled from "styled-components";
+import { CardComponent } from "../components/molecules/CardComponents";
 import { useMobxStores } from "../hooks/useMobxStores";
 
 const HomeContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 2%;
+  overflow-y: scroll;
+  height: 80vh;
 `;
-
-const UserContainer = styled.div`
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-  text-align: start;
-  background-color: #e5e5e5;
-  width: 300px;
-  border-radius: 7px;
-`;
-
-const CustomSpan = styled.div``;
 
 export const Home = observer(() => {
   const { userStore } = useMobxStores();
@@ -29,14 +22,16 @@ export const Home = observer(() => {
 
   return (
     <HomeContainer>
-      {userStore.users.map((user) => {
+      {userStore.users.map((user, index) => {
         return (
-          <UserContainer>
-            <CustomSpan>Lastname : {user?.lastname}</CustomSpan>
-            <CustomSpan>Firstname : {user?.firstname}</CustomSpan>
-            <CustomSpan>Username : {user?.username}</CustomSpan>
-            <CustomSpan>Email : {user?.email}</CustomSpan>
-          </UserContainer>
+          <CardComponent
+            key={index}
+            style={{ color: "#daa520" }}
+            name={user.username}
+            detail1={`Lastname - ${user.lastname}`}
+            detail2={`Firstname - ${user.firstname}`}
+            detail3={`Email - ${user.email}`}
+          />
         );
       })}
     </HomeContainer>

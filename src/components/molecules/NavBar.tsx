@@ -7,7 +7,6 @@ import { CustomButton } from "../atoms/CustomButton";
 const NavBarContainer = styled.div`
   display: flex;
   padding: 0 20px;
-  width: 100vw;
 `;
 
 const NavBarList = styled.div`
@@ -15,6 +14,16 @@ const NavBarList = styled.div`
   align-items: center;
   margin-left: 20px;
 `;
+
+// const CustomList = styled(Link)<{ isSelected: boolean }>`
+//   color: #fafafa;
+//   text-decoration: none;
+//   padding: 10px;
+//   margin: 15px;
+//   font-size: 18px;
+
+//   color: ${({ isSelected }) => (isSelected ? "#daa520" : "#fafafa")};
+// `;
 
 const CustomList = styled(Link)`
   color: #fafafa;
@@ -32,6 +41,9 @@ const Title = styled.h1`
 `;
 
 const ButtonContainer = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 80%;
   margin-left: 30px;
 `;
 
@@ -40,27 +52,28 @@ const LogoutButton = styled(CustomButton)`
   backgroun-color: red;
 `;
 
-const logOut = () => {
-  let navigate = useNavigate();
-  localStorage.clear();
-  navigate("/login");
-};
-
 export const NavBar = () => {
-  let match = useMatch("/login" || "/register");
+  const match = useMatch("/login");
+  const matchRegister = useMatch("/register");
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
     <>
-      {!match && (
+      {!match && !matchRegister && (
         <NavBarContainer>
           <TitleContainer>
             <Title>STAR WARS</Title>
           </TitleContainer>
           <NavBarList>
             <CustomList to="/home">Home</CustomList>
-            <CustomList to="/characters">Characters</CustomList>
+            <CustomList to="/people">People</CustomList>
             <CustomList to="/planets">Planets</CustomList>
-            <CustomList to="/spaceships">Spaceships</CustomList>
+            <CustomList to="/starships">Starships</CustomList>
             <CustomList to="/profil">Profil</CustomList>
           </NavBarList>
           <ButtonContainer>
